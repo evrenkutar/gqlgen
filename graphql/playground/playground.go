@@ -44,9 +44,10 @@ var page = template.Must(template.New("graphiql").Parse(`<!DOCTYPE html>
 </html>
 `))
 
-func Handler(title string, endpoint string) http.HandlerFunc {
+func Handler(title string, endpoint string, authHeader string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Content-Type", "text/html")
+		w.Header().Add("Authorization", "Bearer "+authHeader)
 		err := page.Execute(w, map[string]string{
 			"title":      title,
 			"endpoint":   endpoint,
